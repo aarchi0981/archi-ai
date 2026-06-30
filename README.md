@@ -1,16 +1,41 @@
-# React + Vite
+# ARCHI.AI - Enterprise-Grade Cybersecurity Analytics Hub 🛡️
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A production-ready full-stack **MERN Stack Application** designed to simulate real-time enterprise security threat streams and cryptographic operations. The application features zero-knowledge client architecture telemetry and secure database storage.
 
-Currently, two official plugins are available:
+🌐 **Live Application:** [archi-ai-alpha.vercel.app](https://archi-ai-alpha.vercel.app)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🚀 Core Architectural Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* **Real-Time Telemetry Feed:** Integrated with WebSockets via **Socket.io** to push live network diagnostic logs and attack vector simulations directly to the client dashboard.
+* **Secure Authentication Pipeline:** Production-ready authentication architecture using encrypted transmission and standard session persistence via JSON Web Tokens (JWT) and LocalStorage.
+* **Adaptive Cryptographic Concepts:** Features a dynamic client-side sandbox environment showcasing localized data encoding simulations (AES standard structural flows).
+* **Cloud Architecture Integration:** Built with a decoupled engine connecting a Vite-optimized frontend to a Node/Express backend backed by a managed **MongoDB Atlas cloud database**.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ The Production Tech Stack
+
+| Layer | Technology | Purpose |
+| :--- | :--- | :--- |
+| **Frontend** | React.js & Vite | High-performance client rendering & rapid hot module reloading. |
+| **Styling** | Tailwind CSS | Modern utility-first styling with responsive, dark-mode dashboards. |
+| **Backend** | Node.js & Express.js | Robust asynchronous REST API pipeline & routing layer. |
+| **Database** | MongoDB Atlas | Cloud-hosted NoSQL data persistence layer for client profiles. |
+| **Sockets** | Socket.io | Bi-directional, lower-latency real-time telemetry pipelines. |
+
+---
+
+## 📂 Project Structure Overview
+
+```text
+├── server/               # Node.js/Express Backend Core
+│   ├── index.js          # Main application setup, database connection & WebSocket hooks
+│   ├── package.json      # Server-side environment dependencies
+│   └── .env              # Isolated environment configurations (MongoDB Keys, Ports)
+├── src/                  # React.js Frontend Application
+│   ├── App.jsx           # Monolithic routing dashboard and sandbox framework code
+│   └── main.jsx          # Vite initialization node
+├── vite.config.js        # Modern client building environment mappings
+└── README.md             # Production documentation
