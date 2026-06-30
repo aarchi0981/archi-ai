@@ -3,28 +3,40 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const http = require('http'); // 🌐 Node ka built-in http package
+const http = require('http'); // 
 const { Server } = require('socket.io'); // 🔌 Socket.io Server
 
 const app = express();
 
+// 🌐 
+const allowedOrigins = [
+    "http://localhost:5173", 
+    "https://archi-ai-alpha.vercel.app"
+];
+
 // Middlewares
-app.use(cors());
+app.use(cors({
+    origin: allowedOrigins,
+    credentials: true
+}));
 app.use(express.json());
 
-const JWT_SECRET = "ARCHI_SUPER_SECURE_SECRET_KEY_2026";
+const JWT_SECRET = process.env.JWT_SECRET || "ARCHI_SUPER_SECURE_SECRET_KEY_2026";
 
-// 🌐 Create HTTP Server manually (Socket.io ko Express ke upar baithane ke liye)
+// 🌐 
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:5173", // Hamara frontend port
-        methods: ["GET", "POST"]
+        origin: allowedOrigins, // Hamara dono frontend ports/links
+        methods: ["GET", "POST"],
+        credentials: true
     }
 });
 
-// 🛢️ MongoDB Connection
-mongoose.connect('mongodb://127.0.0.1:27017/archi_ai_prod')
+// 🛢️ 
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/archi_ai_prod';
+
+mongoose.connect(MONGO_URI)
   .then(() => console.log('Database pipeline locked securely! 🛡️'))
   .catch(err => console.error('Database connection failed:', err));
 
@@ -101,10 +113,8 @@ const attackTypes = [
 io.on('connection', (socket) => {
     console.log('A security analyst client connected to stream... ⚡');
 
-    // Har 4 seconds mein automatic ek random live threat alert frontend ko push karna
     const logInterval = setInterval(() => {
         const randomLog = attackTypes[Math.floor(Math.random() * attackTypes.length)];
-        // Naye current timestamp ke sath alert bhejna
         const liveAlert = {
             ...randomLog,
             time: "Just now"
@@ -118,6 +128,5 @@ io.on('connection', (socket) => {
     });
 });
 
-const PORT = 5000;
-// 💡 CRITICAL: Ab app.listen nahi, server.listen chalega kyunki sockets HTTP server se chalte hain!
+const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Server is firing up on port ${PORT}`));
