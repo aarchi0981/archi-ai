@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 
+// 🌐 Dynamic API URL Configuration
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 export default function App() {
   const [openFaq, setOpenFaq] = useState(null);
 
@@ -42,9 +45,9 @@ export default function App() {
     }
   }, []);
 
-  // 🔌 Sockets Listener Hook
+  // 🔌 Sockets Listener Hook (Updated with dynamic URL)
   useEffect(() => {
-    const socket = io('http://localhost:5000');
+    const socket = io(API_URL);
 
     socket.on('new-security-log', (newLog) => {
       setLiveEvents((prevLogs) => {
@@ -57,7 +60,7 @@ export default function App() {
     };
   }, []);
 
-  // 📬 Newsletter Submit
+  // 📬 Newsletter Submit (Updated with dynamic URL)
   const handleSubscribe = async (e) => {
     e.preventDefault();
     setStatusMessage('');
@@ -70,7 +73,8 @@ export default function App() {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/v1/subscribe', {
+      const response = await fetch(`${API_URL}/api/v1/subscribe`, {
+        box: 'POST',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -90,7 +94,7 @@ export default function App() {
     }
   };
 
-  // 🔐 Signup aur Login Handler
+  // 🔐 Signup aur Login Handler (Updated with dynamic URL)
   const handleAuthSubmit = async (e) => {
     e.preventDefault();
     setAuthStatus('');
@@ -99,7 +103,7 @@ export default function App() {
     const endpoint = authMode === 'login' ? 'login' : 'signup';
 
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/${endpoint}`, {
+      const response = await fetch(`${API_URL}/api/v1/${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: authEmail, password: authPassword }),
@@ -152,7 +156,6 @@ export default function App() {
       setEncryptedOutput('');
       return;
     }
-    // Pure Base64 simulation simulating standard cipher streams
     const b64 = btoa(text);
     setEncryptedOutput(`archi_aes256_${b64.reverse ? b64.reverse() : b64.split('').reverse().join('')}__validated`);
   };
@@ -258,13 +261,11 @@ export default function App() {
             </div>
             <div className="p-5 bg-[#110d24]/60 rounded-2xl border border-purple-950/40 backdrop-blur-xl">
               <span className="text-xs text-slate-400 font-medium block mb-1">Active Sockets Firewalls</span>
-              <div className="flex items-baseline gap-2"><span className="text-2xl font-black text-white">PORT 5000</span><span className="text-xs text-emerald-400 font-bold ml-1 flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>CONNECTED</span></div>
+              <div className="flex items-baseline gap-2"><span className="text-2xl font-black text-white">{API_URL.includes('localhost') ? 'PORT 5000' : 'CLOUD NODE'}</span><span className="text-xs text-emerald-400 font-bold ml-1 flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>CONNECTED</span></div>
             </div>
           </div>
 
-          {/* ==========================================
-              🛠️ NEW BLOCK: INTERACTIVE SECURITY TOOLKIT
-             ========================================== */}
+          {/* 🛠️ INTERACTIVE SECURITY TOOLKIT */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             
             {/* 🔒 Encryption Generator Terminal */}
